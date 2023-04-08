@@ -1,0 +1,102 @@
+OpenShift Pipelines is provided as an OpenShift add-on that can be installed via an operator that is available in the OpenShift OperatorHub.
+
+Operators may be installed into a single namespace and only monitor resources in that namespace, but the OpenShift Pipelines Operator installs globally on the cluster and monitors and manage pipelines for every single user in the cluster.
+
+To install the operator globally, you need to be a cluster administrator user. In this workshop environment, the operator has already been installed for you
+
+In this lab environment, you already have access to single project with your assigned user e.g. `userX`.
+
+You user is automatically logged to OpenShift with oc CLI:
+
+[source,bash,role=execute-1]
+----
+oc whoami
+----
+
+A Project has been already assigned to you to work with:
+
+[source,bash,role=execute-1]
+----
+oc project -q
+----
+
+
+== The Web Console
+
+OpenShift ships with a web-based console that will allow users to
+perform various tasks via a browser. 
+
+To get a feel for how the web console works, click on this http://console-openshift-console.{{cluster_subdomain}}/k8s/cluster/projects[Web Console] link.
+
+On the login screen, enter your credentials:
+
+Username: `{{username}}`
+
+Password: `openshift`
+
+The first time you access the web console, you will most likely be in the Administrator perspective. You will be presented with the list of Projects that you can access, and you will see something that looks like the following image:
+
+image::images/explore-webconsole1sc.png[Web Console]
+
+Click on the project you see listed. When you click on it, you will be taken to the project details page,
+which will list some metrics and details about your project. There's nothing there now, but that will change as you progress through the lab.
+
+image::images/explore-webconsole2.png[Explore Project]
+
+At the top of the left navigation menu, you can toggle between the Administrator perspective and the Developer perspective.
+
+image::images/explore-perspective-toggle.png[Toggle Between Perspectives]
+
+Select *Developer* to switch to the Developer perspective. Once the Developer perspective loads, you should be in the *Topology* view. Right now, there are no applications or components to view, but once you begin working on the lab, you'll be able to visualize and interact with the components in your application here.
+
+image::images/explore-topology-view.png[Topology View]
+
+We will be using a mix of command line tooling and the web console for the labs.
+
+== Verify installation
+
+The OpenShift Pipelines Operator provides all its resources under a single API group: tekton.dev. You can see the new resources by running: 
+
+[source,bash,role=execute-1]
+----
+oc api-resources --api-group=tekton.dev
+----
+
+=== Verify user roles
+
+To validate that your user has the appropriate roles, you can use the `oc auth can-i` command to see whether you can create Kubernetes custom resources of the kind needed by the OpenShift Pipelines Operator.
+
+The custom resource you need to create an OpenShift Pipelines pipeline is a resource of the kind pipeline.tekton.dev in the tekton.dev API group. To check that you can create this, run:
+
+[source,bash,role=execute-1]
+----
+oc auth can-i create pipeline.tekton.dev
+----
+
+Or you can use the simplified version:
+
+[source,bash,role=execute-1]
+----
+oc auth can-i create Pipeline
+----
+
+When run, if the response is yes, you have the appropriate access.
+
+Verify that you can create the rest of the Tekton custom resources needed for this workshop by running the commands below. All of the commands should respond with yes.
+
+[source,bash,role=execute-1]
+----
+oc auth can-i create Task
+----
+
+[source,bash,role=execute-1]
+----
+oc auth can-i create PipelineResource
+----
+
+[source,bash,role=execute-1]
+----
+oc auth can-i create PipelineRun
+----
+
+Now that we have verified that you can create the required resources let's start the workshop.

@@ -1,0 +1,24 @@
+config:
+    google_tracking_id: UA-135921114-10
+    template_engine: liquid.js
+    
+modules:
+    intro:
+        name: Workshop Introduction
+    01install-op:
+        name: Review OpenShift Pipelines Operator Installation
+    02serviceaccount:
+        name: Pipeline Service Account
+    03create-task:
+        name: Create Tasks
+    04task-resource-def:
+        name: Task Resource Definitions
+    05create-pipeline:
+        name: Create a Pipeline
+    06trigger-pipeline:
+        name: Trigger a Pipeline
+    07verify-deployment:
+        name: Verify Deployment
+    finish:
+        name: Workshop Summary
+        exit_sign: Finish Workshop

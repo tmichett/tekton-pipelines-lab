@@ -1,0 +1,13 @@
+name: OpenShift Pipelines with Tekton
+
+modules:
+    activate:
+    - intro
+    - 01install-op
+    - 02serviceaccount
+    - 03create-task
+    - 04task-resource-def
+    - 05create-pipeline
+    - 06trigger-pipeline
+    - 07verify-deployment
+    - finish

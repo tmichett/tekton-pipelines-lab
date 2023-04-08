@@ -1,0 +1,72 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: clusterroles-spawner-rules
+parameters:
+- name: NAME_PREFIX
+  value: ""
+  required: false
+- name: WORKSHOP_NAME
+  value: ""
+  required: true
+- name: SPAWNER_NAMESPACE
+  value: ""
+  required: true
+- name: SPAWNER_MODE
+  value: "learning-portal"
+  required: true
+objects:
+- apiVersion: authorization.openshift.io/v1
+  kind: ClusterRole
+  metadata:
+    name: ${NAME_PREFIX}${WORKSHOP_NAME}-spawner-rules
+    labels:
+      app: ${NAME_PREFIX}${WORKSHOP_NAME}
+      spawner: ${SPAWNER_MODE}
+      class: spawner
+  rules:
+  - apiGroups:
+    - ""
+    - authorization.openshift.io
+    - rbac.authorization.k8s.io
+    resourceNames:
+    - config.operator.tekton.dev-v1alpha1-admin
+    - config.operator.tekton.dev-v1alpha1-crdview
+    - config.operator.tekton.dev-v1alpha1-edit
+    - config.operator.tekton.dev-v1alpha1-view
+    - tekton-aggregate-edit
+    - tekton-aggregate-view
+    - tekton-aggregate-admin
+    resources:
+    - clusterroles
+    verbs:
+    - bind
+  - apiGroups:
+    - ""
+    - authorization.openshift.io
+    - rbac.authorization.k8s.io
+    resources:
+    - clusterroles
+    verbs:
+    - get
+    - list
+    - watch
+    - create
+    - delete
+    - patch
+    - update
+  - apiGroups:
+    - security.openshift.io 
+    resources:
+    - securitycontextconstraints 
+    verbs:
+    - use
+    resourceNames:
+    - privileged
+  - apiGroups:
+    - ""
+    - extensions
+    resources:
+    - deployments
+    verbs:
+    - get
